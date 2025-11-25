@@ -1,5 +1,1 @@
-﻿{
-    "outputDirectory":  "frontend/dist",
-    "buildCommand":  "cd frontend \u0026\u0026 npm install \u0026\u0026 npm run build",
-    "version":  2
-}
+{"version": 2}
