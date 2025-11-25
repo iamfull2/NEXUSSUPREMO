@@ -1,5 +1,1 @@
-﻿{
-  "version": 2,
-  "buildCommand": "cd frontend && npm install && npm run build",
-  "outputDirectory": "frontend/dist"
-}
+﻿{`r`n  "version": 2,`r`n  "buildCommand": "cd frontend && npm install && npm run build",`r`n  "outputDirectory": "frontend/dist"`r`n}
