@@ -1,0 +1,7 @@
+﻿node_modules/
+dist/
+build/
+.env
+sf_cookie*
+NEXUS_SUPREME_DATA/
+.vercel

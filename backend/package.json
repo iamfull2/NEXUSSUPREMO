@@ -1,0 +1,25 @@
+{
+  "name": "nexus-supreme-pro",
+  "version": "3.0.0",
+  "description": "Enterprise Cookie Management System - Login, Members Area, Dashboard",
+  "main": "server-online.js",
+  "scripts": {
+    "start": "node server-online.js",
+    "dev": "nodemon server-online.js"
+  },
+  "keywords": [
+    "cookie",
+    "management",
+    "anti-detect",
+    "browser",
+    "automation",
+    "enterprise"
+  ],
+  "author": "NEXUS SUPREME",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

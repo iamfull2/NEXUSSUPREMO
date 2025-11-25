@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "buildCommand": "npm --prefix frontend install && npm --prefix frontend run build",
+  "outputDirectory": "frontend/dist",
+  "env": {
+    "REACT_APP_API_URL": "@react_app_api_url"
+  },
+  "builds": [
+    {
+      "src": "frontend",
+      "use": "@vercel/static-build"
+    },
+    {
+      "src": "backend/server-online.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/server-online.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/index.html"
+    }
+  ]
+}

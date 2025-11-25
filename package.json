@@ -1,0 +1,9 @@
+{
+  "name": "nexus-supreme-pro",
+  "version": "1.0.0",
+  "description": "NEXUS SUPREME PRO - AntiDetect Browser System",
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build"
+  }
+}

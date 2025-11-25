@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- ===================================================================
+         CHARSET & VIEWPORT
+         =================================================================== -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    
+    <!-- ===================================================================
+         BROWSER & DEVICE META TAGS
+         =================================================================== -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="msapplication-TileColor" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="NEXUS SUPREME PRO" />
+    
+    <!-- ===================================================================
+         SEO & DESCRIPTION
+         =================================================================== -->
+    <title>🏆 NEXUS SUPREME PRO - Enterprise Cookie Management System</title>
+    <meta name="description" content="NEXUS SUPREME PRO - Professional enterprise system for cookie management, user authentication and data security. Dashboard with login, analytics and multi-user support." />
+    <meta name="keywords" content="cookie management, anti-detect, browser automation, enterprise system, security" />
+    <meta name="author" content="NEXUS SUPREME" />
+    <meta name="copyright" content="© 2024 NEXUS SUPREME PRO. All rights reserved." />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Portuguese" />
+    
+    <!-- ===================================================================
+         OPEN GRAPH (Facebook, LinkedIn, etc)
+         =================================================================== -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nexus-supreme-pro.vercel.app/" />
+    <meta property="og:title" content="🏆 NEXUS SUPREME PRO" />
+    <meta property="og:description" content="Enterprise Cookie Management System - Professional Dashboard with Authentication" />
+    <meta property="og:image" content="https://nexus-supreme-pro.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="NEXUS SUPREME PRO" />
+    
+    <!-- ===================================================================
+         TWITTER CARDS
+         =================================================================== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@nexussupreme" />
+    <meta name="twitter:title" content="🏆 NEXUS SUPREME PRO" />
+    <meta name="twitter:description" content="Enterprise Cookie Management System - Professional & Secure" />
+    <meta name="twitter:image" content="https://nexus-supreme-pro.vercel.app/og-image.png" />
+    <meta name="twitter:creator" content="@nexussupreme" />
+    
+    <!-- ===================================================================
+         FAVICONS & APP ICONS
+         =================================================================== -->
+    <link rel="icon" type="image/x-icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- ===================================================================
+         PWA & APP INSTALLATION
+         =================================================================== -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta name="application-name" content="NEXUS SUPREME PRO" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <!-- ===================================================================
+         PERFORMANCE: DNS PREFETCH & PRECONNECT
+         =================================================================== -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- ===================================================================
+         PERFORMANCE: PRELOAD CRITICAL RESOURCES
+         =================================================================== -->
+    <!-- Preload fonts para melhor performance -->
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KSvjqDyYTj6coOS.woff2" crossorigin />
+    
+    <!-- ===================================================================
+         SECURITY HEADERS
+         =================================================================== -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https:;" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="permissions-policy" content="geolocation=(), microphone=(), camera=()" />
+    
+    <!-- ===================================================================
+         LOADING OPTIMIZATION
+         =================================================================== -->
+    <style>
+      /* Prevent FOUC (Flash of Unstyled Content) */
+      html {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        color: #f1f5f9;
+        min-height: 100vh;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      /* Loading skeleton animation */
+      @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+      }
+      
+      .loading {
+        background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+        background-size: 1000px 100%;
+        animation: shimmer 2s infinite;
+      }
+    </style>
+    
+    <!-- No Script Fallback -->
+    <noscript>
+      <style>
+        body {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+          color: #f1f5f9;
+          min-height: 100vh;
+        }
+        .noscript-container {
+          text-align: center;
+          padding: 40px 20px;
+          max-width: 500px;
+        }
+        .noscript-container h1 {
+          font-size: 28px;
+          margin-bottom: 16px;
+        }
+        .noscript-container p {
+          font-size: 16px;
+          color: #cbd5e1;
+          margin-bottom: 24px;
+        }
+      </style>
+      <div class="noscript-container">
+        <h1>⚠️ JavaScript Required</h1>
+        <p>NEXUS SUPREME PRO requires JavaScript to be enabled. Please enable JavaScript in your browser settings and try again.</p>
+        <p style="font-size: 14px; color: #94a3b8;">
+          If JavaScript is already enabled, please <a href="javascript:location.reload()" style="color: #3b82f6;">refresh the page</a>.
+        </p>
+      </div>
+    </noscript>
+  </head>
+  
+  <body>
+    <!-- ===================================================================
+         APP ROOT - React renderiza aqui
+         =================================================================== -->
+    <div id="root" class="loading" aria-label="Carregando NEXUS SUPREME PRO..."></div>
+    
+    <!-- ===================================================================
+         ANALYTICS & TRACKING
+         =================================================================== -->
+    <!-- Google Analytics (descomente e configure) -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    -->
+    
+    <!-- Performance monitoring (opcional) -->
+    <script>
+      // Web Vitals
+      if (window.requestIdleCallback) {
+        requestIdleCallback(() => {
+          console.log('✅ NEXUS SUPREME PRO v1.0.0 - Loaded');
+        });
+      }
+      
+      // Basic performance tracking
+      window.addEventListener('load', () => {
+        if (window.performance && window.performance.timing) {
+          const timing = window.performance.timing;
+          const loadTime = timing.loadEventEnd - timing.navigationStart;
+          console.log(`📊 Page Load Time: ${loadTime}ms`);
+        }
+      });
+    </script>
+    
+    <!-- ===================================================================
+         ERROR TRACKING (Error Boundary)
+         =================================================================== -->
+    <script>
+      window.addEventListener('error', (event) => {
+        console.error('❌ Uncaught Error:', event.error);
+        // Enviar para serviço de error tracking (Sentry, etc)
+      });
+      
+      window.addEventListener('unhandledrejection', (event) => {
+        console.error('❌ Unhandled Promise Rejection:', event.reason);
+      });
+    </script>
+  </body>
+</html>

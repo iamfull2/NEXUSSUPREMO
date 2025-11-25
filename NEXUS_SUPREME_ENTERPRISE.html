@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS SUPREME - Enterprise Cookie Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        html, body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        .animate-fade { animation: fadeIn 0.6s ease-out; }
+        .animate-slide { animation: slideInLeft 0.6s ease-out; }
+
+        /* Glass Morphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-light {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #e2e8f0;
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3b82f6;
+        }
+
+        /* Cards */
+        .card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
+            transform: translateY(-4px);
+        }
+
+        /* Tables */
+        .table-header {
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .table-row:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        /* Input */
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #f1f5f9;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .input-field::placeholder {
+            color: #94a3b8;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .badge-info {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            z-index: 999;
+        }
+
+        .sidebar-item {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-item:hover,
+        .sidebar-item.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border-left-color: #3b82f6;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+        }
+
+        /* Login */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 450px;
+            padding: 48px;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .login-logo {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6 0%, transparent 100%);
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.7);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar { width: 240px; }
+            .main-content { margin-left: 240px; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+            .main-content { margin-left: 0; padding: 24px; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // ENTERPRISE DATA & API SIMULATION
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        const API = {
+            domains: {
+                'adobe.com': { cookies: 224, category: 'Creative', status: 'active', lastSync: '2 hours ago' },
+                'accounts.google.com': { cookies: 152, category: 'Productivity', status: 'active', lastSync: '1 hour ago' },
+                'freepik.com': { cookies: 98, category: 'Creative', status: 'active', lastSync: '3 hours ago' },
+                'amazon.com.br': { cookies: 87, category: 'E-commerce', status: 'active', lastSync: '30 min ago' },
+                'netflix.com': { cookies: 76, category: 'Streaming', status: 'inactive', lastSync: '5 hours ago' },
+                'github.com': { cookies: 65, category: 'Development', status: 'active', lastSync: '1 hour ago' },
+                'openai.com': { cookies: 54, category: 'AI', status: 'active', lastSync: '15 min ago' },
+                'facebook.com': { cookies: 43, category: 'Social', status: 'active', lastSync: '2 hours ago' },
+                'instagram.com': { cookies: 38, category: 'Social', status: 'active', lastSync: '45 min ago' },
+                'youtube.com': { cookies: 32, category: 'Streaming', status: 'active', lastSync: '30 min ago' },
+            }
+        };
+
+        const users = {
+            'admin@nexus.com': { password: 'admin123', name: 'Admin User', plan: 'Enterprise' },
+            'user@nexus.com': { password: 'user123', name: 'Regular User', plan: 'Professional' }
+        };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // LOGIN PAGE
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        function LoginPage({ onLogin }) {
+            const [email, setEmail] = useState('admin@nexus.com');
+            const [password, setPassword] = useState('admin123');
+            const [error, setError] = useState('');
+            const [loading, setLoading] = useState(false);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setError('');
+                setLoading(true);
+
+                setTimeout(() => {
+                    if (users[email] && users[email].password === password) {
+                        onLogin({ email, name: users[email].name, plan: users[email].plan });
+                    } else {
+                        setError('Email ou senha inválidos');
+                    }
+                    setLoading(false);
+                }, 1000);
+            };
+
+            return (
+                <div className="login-container">
+                    <div className="login-box animate-fade">
+                        <div className="login-header">
+                            <div className="login-logo">🏆</div>
+                            <div className="login-title">NEXUS SUPREME</div>
+                            <div className="login-subtitle">Enterprise Cookie Management System</div>
+                        </div>
+
+                        <form onSubmit={handleSubmit}>
+                            {error && (
+                                <div className="mb-6 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+                                    ⚠️ {error}
+                                </div>
+                            )}
+
+                            <div className="form-group">
+                                <label className="form-label">Email</label>
+                                <input
+                                    type="email"
+                                    className="input-field w-full"
+                                    placeholder="seu@email.com"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    disabled={loading}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Senha</label>
+                                <input
+                                    type="password"
+                                    className="input-field w-full"
+                                    placeholder="Sua senha"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    disabled={loading}
+                                />
+                            </div>
+
+                            <button type="submit" className="btn-primary w-full" disabled={loading}>
+                                {loading ? '⏳ Conectando...' : '🔐 Entrar'}
+                            </button>
+
+                            <div className="mt-6 text-center">
+                                <p className="text-12px text-gray-400">
+                                    Demo • admin@nexus.com / admin123
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // DASHBOARD - MAIN PAGE
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        function Dashboard({ user, onLogout }) {
+            const [currentPage, setCurrentPage] = useState(1);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [selectedDomain, setSelectedDomain] = useState(null);
+
+            const domains = Object.entries(API.domains);
+            const filtered = domains.filter(([d]) => d.toLowerCase().includes(searchQuery.toLowerCase()));
+            
+            const itemsPerPage = 8;
+            const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            const paginatedDomains = filtered.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+            const stats = {
+                totalDomains: domains.length,
+                totalCookies: Object.values(API.domains).reduce((sum, d) => sum + d.cookies, 0),
+                activeDomains: Object.values(API.domains).filter(d => d.status === 'active').length,
+                avgCookies: Math.round(Object.values(API.domains).reduce((sum, d) => sum + d.cookies, 0) / domains.length)
+            };
+
+            return (
+                <div className="flex">
+                    {/* SIDEBAR */}
+                    <div className="sidebar">
+                        <div className="p-6 border-b border-white/10">
+                            <div className="text-20px font-bold mb-2">🏆</div>
+                            <div className="text-14px font-700">NEXUS SUPREME</div>
+                            <div className="text-11px text-gray-400 mt-1">Enterprise v3.0</div>
+                        </div>
+
+                        <nav className="mt-8">
+                            <div className="sidebar-item active">
+                                <i className="fas fa-chart-line w-5"></i>
+                                <span>Dashboard</span>
+                            </div>
+                            <div className="sidebar-item">
+                                <i className="fas fa-globe w-5"></i>
+                                <span>Domínios</span>
+                            </div>
+                            <div className="sidebar-item">
+                                <i className="fas fa-cog w-5"></i>
+                                <span>Configurações</span>
+                            </div>
+                            <div className="sidebar-item">
+                                <i className="fas fa-file-alt w-5"></i>
+                                <span>Relatórios</span>
+                            </div>
+                            <div className="sidebar-item">
+                                <i className="fas fa-question-circle w-5"></i>
+                                <span>Suporte</span>
+                            </div>
+                        </nav>
+
+                        <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
+                            <div className="badge badge-info mb-4 block text-center">
+                                {user.plan}
+                            </div>
+                            <div className="text-12px text-gray-400">
+                                <div className="font-600 text-white mb-1">{user.name}</div>
+                                <div className="break-words">{user.email}</div>
+                            </div>
+                            <button onClick={onLogout} className="btn-secondary w-full mt-4">
+                                Sair
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* MAIN CONTENT */}
+                    <div className="main-content w-full">
+                        {/* HEADER */}
+                        <div className="flex justify-between items-center mb-40px">
+                            <div>
+                                <h1 className="text-36px font-700 mb-2">Dashboard</h1>
+                                <p className="text-14px text-gray-400">Bem-vindo, {user.name.split(' ')[0]}</p>
+                            </div>
+                            <div className="flex gap-3">
+                                <button className="btn-secondary">📊 Exportar</button>
+                                <button className="btn-primary">⚡ Sincronizar</button>
+                            </div>
+                        </div>
+
+                        {/* STATS */}
+                        <div className="stats-grid animate-fade">
+                            <div className="card">
+                                <div className="stat-label">Domínios Totais</div>
+                                <div className="stat-value">{stats.totalDomains}</div>
+                                <div className="text-12px text-green-400 mt-2">✓ Sistema operacional</div>
+                            </div>
+                            <div className="card">
+                                <div className="stat-label">Cookies Sincronizados</div>
+                                <div className="stat-value">{stats.totalCookies.toLocaleString()}</div>
+                                <div className="text-12px text-green-400 mt-2">✓ Última sincronização: 15min</div>
+                            </div>
+                            <div className="card">
+                                <div className="stat-label">Domínios Ativos</div>
+                                <div className="stat-value">{stats.activeDomains}</div>
+                                <div className="text-12px text-green-400 mt-2">✓ Taxa de disponibilidade: 98%</div>
+                            </div>
+                            <div className="card">
+                                <div className="stat-label">Cookies Médios</div>
+                                <div className="stat-value">{stats.avgCookies}</div>
+                                <div className="text-12px text-blue-400 mt-2">📈 Por domínio</div>
+                            </div>
+                        </div>
+
+                        {/* SEARCH & FILTER */}
+                        <div className="card mb-6 animate-slide" style={{ animationDelay: '0.1s' }}>
+                            <div className="flex gap-4">
+                                <input
+                                    type="text"
+                                    className="input-field flex-1"
+                                    placeholder="🔍 Buscar domínio..."
+                                    value={searchQuery}
+                                    onChange={(e) => {
+                                        setSearchQuery(e.target.value);
+                                        setCurrentPage(1);
+                                    }}
+                                />
+                                <button className="btn-primary">
+                                    <i className="fas fa-filter"></i> Filtrar
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* DOMAINS TABLE */}
+                        <div className="card animate-slide" style={{ animationDelay: '0.2s' }}>
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="table-header">
+                                            <th className="px-6 py-3 text-left text-12px font-600 text-gray-300 uppercase">Domínio</th>
+                                            <th className="px-6 py-3 text-left text-12px font-600 text-gray-300 uppercase">Categoria</th>
+                                            <th className="px-6 py-3 text-left text-12px font-600 text-gray-300 uppercase">Cookies</th>
+                                            <th className="px-6 py-3 text-left text-12px font-600 text-gray-300 uppercase">Status</th>
+                                            <th className="px-6 py-3 text-left text-12px font-600 text-gray-300 uppercase">Última Sincronização</th>
+                                            <th className="px-6 py-3 text-left text-12px font-600 text-gray-300 uppercase">Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {paginatedDomains.map(([domain, data]) => (
+                                            <tr key={domain} className="table-row border-b border-white/5">
+                                                <td className="px-6 py-4 text-14px font-500">{domain}</td>
+                                                <td className="px-6 py-4 text-14px">
+                                                    <span className="badge badge-info">{data.category}</span>
+                                                </td>
+                                                <td className="px-6 py-4 text-14px font-600 text-blue-400">{data.cookies}</td>
+                                                <td className="px-6 py-4 text-14px">
+                                                    <span className={`badge ${data.status === 'active' ? 'badge-success' : 'badge-warning'}`}>
+                                                        {data.status === 'active' ? '● Ativo' : '● Inativo'}
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4 text-14px text-gray-400">{data.lastSync}</td>
+                                                <td className="px-6 py-4 text-14px">
+                                                    <button className="text-blue-400 hover:text-blue-300 font-600">
+                                                        Acessar →
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* PAGINATION */}
+                            {totalPages > 1 && (
+                                <div className="flex justify-center gap-2 mt-6 pt-6 border-t border-white/5">
+                                    <button
+                                        className="btn-secondary px-4 py-2"
+                                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                        disabled={currentPage === 1}
+                                    >
+                                        ← Anterior
+                                    </button>
+                                    <div className="flex gap-2">
+                                        {Array.from({ length: totalPages }, (_, i) => (
+                                            <button
+                                                key={i + 1}
+                                                className={`px-4 py-2 rounded-lg font-600 ${
+                                                    currentPage === i + 1
+                                                        ? 'btn-primary'
+                                                        : 'btn-secondary'
+                                                }`}
+                                                onClick={() => setCurrentPage(i + 1)}
+                                            >
+                                                {i + 1}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <button
+                                        className="btn-secondary px-4 py-2"
+                                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                        disabled={currentPage === totalPages}
+                                    >
+                                        Próxima →
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* FOOTER */}
+                        <div className="mt-12 text-center text-12px text-gray-500">
+                            <p>© 2024 NEXUS SUPREME. Enterprise Cookie Management System.</p>
+                            <p>Versão 3.0 | Status: Production Ready | Uptime: 99.99%</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // APP COMPONENT
+        // ═══════════════════════════════════════════════════════════════════════════
+
+        function App() {
+            const [user, setUser] = useState(null);
+
+            return (
+                <>
+                    {!user ? (
+                        <LoginPage onLogin={setUser} />
+                    ) : (
+                        <Dashboard user={user} onLogout={() => setUser(null)} />
+                    )}
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>

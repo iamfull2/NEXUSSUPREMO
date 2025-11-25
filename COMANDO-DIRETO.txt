@@ -1,0 +1,138 @@
+cd "C:\Users\mathi\Downloads\NEXUSSUPREMO"
+
+# 1. Criar vercel.json
+@"
+{
+  "version": 2,
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "env": {
+    "REACT_APP_API_URL": "@react_app_api_url"
+  },
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/node",
+      "config": {
+        "zeroConfig": true
+      }
+    },
+    {
+      "src": "backend/server-online.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/server-online.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/index.html"
+    }
+  ]
+}
+"@ | Out-File vercel.json -Encoding UTF8 -Force
+Write-Host "OK - vercel.json criado" -ForegroundColor Green
+
+# 2. Criar package.json
+@"
+{
+  "name": "nexus-supreme-pro",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build"
+  }
+}
+"@ | Out-File package.json -Encoding UTF8 -Force
+Write-Host "OK - package.json criado" -ForegroundColor Green
+
+# 3. Criar frontend/package.json
+@"
+{
+  "name": "nexus-supreme-frontend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8"
+  }
+}
+"@ | Out-File frontend/package.json -Encoding UTF8 -Force
+Write-Host "OK - frontend/package.json criado" -ForegroundColor Green
+
+# 4. Criar vite.config.js
+@"
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    outDir: 'dist',
+    sourcemap: false
+  }
+})
+"@ | Out-File frontend/vite.config.js -Encoding UTF8 -Force
+Write-Host "OK - vite.config.js criado" -ForegroundColor Green
+
+# 5. Criar index.html
+@"
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS SUPREME PRO</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/index.jsx"></script>
+</body>
+</html>
+"@ | Out-File frontend/public/index.html -Encoding UTF8 -Force
+Write-Host "OK - index.html criado" -ForegroundColor Green
+
+# 6. Criar .gitignore
+@"
+node_modules/
+dist/
+build/
+.env
+.env.local
+.DS_Store
+*.log
+.vscode/
+.idea/
+.vercel
+"@ | Out-File .gitignore -Encoding UTF8 -Force
+Write-Host "OK - .gitignore criado" -ForegroundColor Green
+
+# 7. Git init
+git init
+git config user.email "seu@email.com"
+git config user.name "NEXUS SUPREME"
+git branch -M main
+Write-Host "OK - Git inicializado" -ForegroundColor Green
+
+# 8. Primeiro commit
+git add .
+git commit -m "Initial commit - NEXUS SUPREME PRO"
+Write-Host "OK - Commit realizado" -ForegroundColor Green
+
+Write-Host "`nSUCESSO! Tudo criado!`n" -ForegroundColor Green
+Write-Host "Proximos passos:`n" -ForegroundColor Cyan
+Write-Host "1. git remote add origin https://github.com/SEU_USUARIO/NEXUSSUPREMO.git" -ForegroundColor Yellow
+Write-Host "2. git push -u origin main" -ForegroundColor Yellow
+Write-Host "3. Fazer deploy no Vercel`n" -ForegroundColor Yellow

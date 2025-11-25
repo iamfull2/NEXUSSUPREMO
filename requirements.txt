@@ -1,0 +1,18 @@
+# requirements.txt
+# NEXUS SUPREME v1.0 - Dependências do Sistema
+
+# Automação Web
+selenium>=4.0.0
+webdriver-manager>=3.8.0
+
+# Interface e Cores
+colorama>=0.4.6
+
+# (Opcional) Para criptografia de dados sensíveis
+# cryptography>=3.4.8
+
+# (Opcional) Para melhor tratamento de JSON
+# ujson>=5.0.0
+
+# (Opcional) Para requisições HTTP avançadas
+# requests>=2.28.0
